@@ -7,6 +7,10 @@ namespace FizzBuzz {
         public static void Main() {
             Console.Write("Enter rules to use (e.g. '3 5 11'): ");
             var rules = Console.ReadLine().Split(' ');
+            
+            Console.Write("Enter own number-word pairs, will apply at end (e.g. 2-App 8-Bug): ");
+            var custom = Console.ReadLine().Split(' ');
+
             int max;
             Console.Write("Enter upper limit: ");
             max = int.TryParse(Console.ReadLine(), out max) ? max : 100;
@@ -28,7 +32,17 @@ namespace FizzBuzz {
                      }
                 } if (i % 17 == 0 && rules.Contains("17")) {
                      words.Reverse();
-                } if (words.Count == 0) {
+                }
+                foreach (var s in custom) {
+                    try {
+                        var numString = s.Split('-');
+                        if (numString.Length == 2 && i % int.Parse(numString[0]) == 0) {
+                            words.Add(numString[1]);
+                        }
+                    }
+                    catch {} // int.Parse failed or attempted modulo 0
+                }
+                if (words.Count == 0) {
                     Console.WriteLine(i);
                 } else {
                     Console.WriteLine(string.Join("", words));
