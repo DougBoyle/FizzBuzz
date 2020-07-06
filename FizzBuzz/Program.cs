@@ -73,16 +73,16 @@ namespace FizzBuzz {
         }
 
         public static void HorribleOneLiner() {
-            Enumerable.Range(1, 100).ToList().Select(i => new KeyValuePair<int, List<string>>(i, new List<string>()))
-                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 3 == 0 ? p.Value.Append("Fizz").ToList() : p.Value))
-                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 5 == 0 ? p.Value.Append("Buzz").ToList() : p.Value))
-                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 7 == 0 ? p.Value.Append("Bang").ToList() : p.Value))
-                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 11 == 0 ? new List<string>() {"Bong"} : p.Value))
-                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 13 == 0 ? 
+            Enumerable.Range(1, 100).Select(i => new KeyValuePair<int, IEnumerable<string>>(i, Enumerable.Empty<string>()))
+                   .Select(p => new KeyValuePair<int, IEnumerable<string>>(p.Key, p.Key % 3 == 0 ? p.Value.Append("Fizz") : p.Value))
+                   .Select(p => new KeyValuePair<int, IEnumerable<string>>(p.Key, p.Key % 5 == 0 ? p.Value.Append("Buzz") : p.Value))
+                   .Select(p => new KeyValuePair<int, IEnumerable<string>>(p.Key, p.Key % 7 == 0 ? p.Value.Append("Bang") : p.Value))
+                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 11 == 0 ? new List<string>() {"Bong"} : p.Value.ToList()))
+                   .Select(p => new KeyValuePair<int, IEnumerable<string>>(p.Key, p.Key % 13 == 0 ? 
                        p.Value.Count > 0 && p.Value[0] == "Fizz" ? Enumerable.Concat(new List<string>(){"Fizz", "Fezz"}, p.Value.Skip(1)).ToList() :
                        Enumerable.Prepend(p.Value, "Fezz").ToList() : p.Value))
-                   .Select(p => new KeyValuePair<int, List<string>>(p.Key, p.Key % 17 == 0 ? Enumerable.Reverse(p.Value).ToList() : p.Value))
-                   .Select(p => p.Value.Count > 0 ? String.Join("",p.Value) : p.Key.ToString())
+                   .Select(p => new KeyValuePair<int, IEnumerable<string>>(p.Key, p.Key % 17 == 0 ? Enumerable.Reverse(p.Value) : p.Value))
+                   .Select(p => p.Value.Any() ? String.Join("",p.Value) : p.Key.ToString())
                    .ToList().ForEach(s => Console.WriteLine(s));
         }
     }
